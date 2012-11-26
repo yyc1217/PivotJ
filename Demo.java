@@ -37,7 +37,6 @@ public class Test {
 		//		[TOTAL:48][CompanyB:35][DepartmentB:13][TeamD:13]
 		//		[TOTAL:48][CompanyB:35][DepartmentC:22]
 		//		[TOTAL:48][CompanyB:35][DepartmentC:22][TeamD:22]
-		 
 		
 		System.out.println(HST.getSum(new Object[]{"CompanyB", "DepartmentB"}));
 		//Output:13
@@ -48,7 +47,7 @@ public class Test {
 		System.out.println(HST.getSum(new Object[]{"CompanyB", "DepartmentC", null}));		
 		//Output:0 (No Such Key)
 		System.out.println(HST.getSum(new Object[]{"CompanyB", null, "TeamD"}));		
-	    //Output:0 (No Such Key)
+		//Output:0 (No Such Key)
 		
 	}
 	

@@ -19,56 +19,82 @@ public class HierarchicalStatisticTree<K> implements Comparable<K>, IHierarchica
 		this.children = new ArrayList<HierarchicalStatisticTree<K>>();
 	}
 
+	/**
+	 * Building a HST recursively.
+	 * @param kArray
+	 * @param index
+	 * @param num
+	 */
 	private void buildBySum(K[] kArray, int index, int num) {
 		//Stopped by out of bound or null value
 		//and assume that the last one in kArray is the number we want to accumulate.
 		if(index >= (kArray.length-1) || kArray[index]==null)
 			return;
 		
-		//Search the tempPV in children
-		HierarchicalStatisticTree<K> tempPV = new HierarchicalStatisticTree<K>(kArray[index]);		
-		int indexOfChildren = this.children.indexOf(tempPV);
+		//Search the tempHST in children
+		HierarchicalStatisticTree<K> tempHST = new HierarchicalStatisticTree<K>(kArray[index]);		
+		int indexOfChildren = this.children.indexOf(tempHST);
 				
 		if(indexOfChildren >= 0){
 			//If exist
-			tempPV = this.children.get(indexOfChildren);
-			tempPV.incrSum(num);
-			tempPV.buildBySum(kArray, ++index, num);
+			tempHST = this.children.get(indexOfChildren);
+			tempHST.incrSum(num);
+			tempHST.buildBySum(kArray, ++index, num);
 		}else{
 			//If not exist
-			tempPV.incrSum(num);
-			tempPV.buildBySum(kArray, ++index, num);
-			this.children.add(tempPV);
+			tempHST.incrSum(num);
+			tempHST.buildBySum(kArray, ++index, num);
+			this.children.add(tempHST);
 		}
 
 	}
 	
+	/**
+	 * Building a HST recursively which assume the accumulate value is the last
+	 * element in kArray. 
+	 * @param list
+	 */
 	public void buildTreeBySum(List<K[]> list){
 		
 		for(K[] kArray: list){
 			//assume that the last one in kArray is the number we want to accumulate.
-			int num = (Integer) kArray[kArray.length-1];
+			int num = this.getNum(kArray);
 			this.incrSum(num);
 			this.buildBySum(kArray, 0, num);
 		}
 	}
 
+	/**
+	 * get the value we want to accumulate
+	 * you may override this method by different number type.
+	 * @param kArray
+	 * @return
+	 */
+	private java.lang.Number getNum(K[] kArray){
+		return (Integer) kArray[kArray.length-1];
+	}
+	
 	private void incrSum(int num){
 		this.count += num;
 	}
 	
+	/**
+	 * Get the accumulate value by input a serial or keys.
+	 * @param kArray
+	 * @return
+	 */
 	public Integer getSum(K[] kArray){
 
 		if(kArray==null || kArray.length<=0)
 			return this.count;
 		
-		HierarchicalStatisticTree<K> tempPV = new HierarchicalStatisticTree<K>(kArray[0]);
-		//Searching tempPV is in children or not
-		for(HierarchicalStatisticTree<K> pv: this.children){
+		HierarchicalStatisticTree<K> tempHST = new HierarchicalStatisticTree<K>(kArray[0]);
+		//Searching tempHST is in children or not
+		for(HierarchicalStatisticTree<K> HST: this.children){
 			//If exist
-			if(tempPV.equals(pv)){
+			if(tempHST.equals(HST)){
 				//Start to searching accumulate value from this PivotTable
-				return pv.sum(kArray, 0);
+				return HST.sum(kArray, 0);
 			}
 		}
 		//If not exist
@@ -80,11 +106,11 @@ public class HierarchicalStatisticTree<K> implements Comparable<K>, IHierarchica
 		if(index >= kArray.length || kArray[index]==null)
 			return 0;
 		
-		//Search by tempPV
-		HierarchicalStatisticTree<K> tempPV = new HierarchicalStatisticTree<K>(kArray[index]);
+		//Search by tempHST
+		HierarchicalStatisticTree<K> tempHST = new HierarchicalStatisticTree<K>(kArray[index]);
 		
-		//If tempPV equals current PivotTable
-		if(tempPV.equals(this)){
+		//If tempHST equals current PivotTable
+		if(tempHST.equals(this)){
 			//looking for next key value
 			index++;
 			if(index >= kArray.length){
@@ -95,8 +121,8 @@ public class HierarchicalStatisticTree<K> implements Comparable<K>, IHierarchica
 				return 0;
 			}else{
 				//searching next key value in children
-				tempPV = new HierarchicalStatisticTree<K>(kArray[index]);
-				int indexOfChildren = this.children.indexOf(tempPV);
+				tempHST = new HierarchicalStatisticTree<K>(kArray[index]);
+				int indexOfChildren = this.children.indexOf(tempHST);
 				if(indexOfChildren >= 0){
 					//if exist
 					return this.children.get(indexOfChildren).sum(kArray, index);
