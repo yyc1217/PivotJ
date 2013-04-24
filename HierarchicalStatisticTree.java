@@ -9,7 +9,7 @@ public class HierarchicalStatisticTree<K> implements Comparable<K>, IHierarchica
 	
 	public HierarchicalStatisticTree(){
 		this.key = null;
-		this.count = 0;
+		this.count = 0; 
 		this.children = new ArrayList<HierarchicalStatisticTree<K>>();
 	}
 	
