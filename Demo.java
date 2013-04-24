@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Test {
+public class Demo {
 	public static void main(String[] args){
 		
 		/**
@@ -19,8 +19,8 @@ public class Test {
 		testList.add(new Object[]{"CompanyB", "DepartmentC", "TeamD", 5});
 
 		//Building HierarchicalStatistic Tree
-		IHierarchicalStatisticTree<Object> HST = new HierarchicalStatisticTree<Object>();
-		HST.buildTreeBySum(testList);
+		IHierarchicalStatisticTree<Object> HST = new SumTree<Object>();
+		HST.buildTree(testList);
 		
 		HST.printTree();
 		//	 Output:
@@ -38,15 +38,15 @@ public class Test {
 		//		[TOTAL:48][CompanyB:35][DepartmentC:22]
 		//		[TOTAL:48][CompanyB:35][DepartmentC:22][TeamD:22]
 		
-		System.out.println(HST.getSum(new Object[]{"CompanyB", "DepartmentB"}));
+		System.out.println(HST.getResult(new Object[]{"CompanyB", "DepartmentB"}));
 		//Output:13
-		System.out.println(HST.getSum(new Object[]{"CompanyA", "DepartmentB", "TeamC"}));
+		System.out.println(HST.getResult(new Object[]{"CompanyA", "DepartmentB", "TeamC"}));
 		//Output:7
-		System.out.println(HST.getSum(new Object[]{}));
+		System.out.println(HST.getResult(new Object[]{}));
 		//Output:48
-		System.out.println(HST.getSum(new Object[]{"CompanyB", "DepartmentC", null}));		
+		System.out.println(HST.getResult(new Object[]{"CompanyB", "DepartmentC", null}));		
 		//Output:0 (No Such Key)
-		System.out.println(HST.getSum(new Object[]{"CompanyB", null, "TeamD"}));		
+		System.out.println(HST.getResult(new Object[]{"CompanyB", null, "TeamD"}));		
 		//Output:0 (No Such Key)
 		
 	}
