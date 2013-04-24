@@ -4,11 +4,14 @@ import java.util.List;
 
 public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements IHierarchicalStatisticTree<K> {
 
+	/**
+	 * maintain all children belongs to this SumTree node
+	 */
 	ArrayList<SumTree<K>> children;
 	
 	public SumTree(){
 		super();
-		this.children = new ArrayList<SumTree<K>>();
+		children = new ArrayList<SumTree<K>>();
 	}
 	
 	public SumTree(K key) {
@@ -20,129 +23,126 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	public void buildTree(List<K[]> list) {
 		
 		for(K[] kArray: list){
-			//assume that the last one in kArray is the number we want to accumulate.
-			int num = (Integer) this.getNum(kArray);
-			this.incrSum(num);
-			this.buildBySum(kArray, 0, num);
+			int value = (Integer) getValue(kArray);
+			incrSum(value);
+			buildBySum(kArray, 0, value);
 		}
 	}
 
 	/**
-	 * Building a HST recursively.
+	 * Building a HST by accumulating num recursively.
 	 * @param kArray
 	 * @param index
 	 * @param num
 	 */
-	private void buildBySum(K[] kArray, int index, int num) {
+	private void buildBySum(K[] kArray, int index, int value) {
 		//Stopped by out of bound or null value
-		//and assume that the last one in kArray is the number we want to accumulate.
 		if(index >= (kArray.length-1) || kArray[index]==null)
 			return;
 		
-		//Search the tempHST in children
-		SumTree<K> tempHST = new SumTree<K>(kArray[index]);		
-		int indexOfChildren = this.children.indexOf(tempHST);
+		//Search for the tempHST in children list
+		SumTree<K> tempSumTree = new SumTree<K>(kArray[index]);		
+		int indexOfChildren = children.indexOf(tempSumTree);
 				
 		if(indexOfChildren >= 0){
-			//If exist
-			tempHST = this.children.get(indexOfChildren);
-			tempHST.incrSum(num);
-			tempHST.buildBySum(kArray, ++index, num);
+			tempSumTree = children.get(indexOfChildren);
+			tempSumTree.incrSum(value);
+			tempSumTree.buildBySum(kArray, ++index, value);
+			
 		}else{
-			//If not exist
-			tempHST.incrSum(num);
-			tempHST.buildBySum(kArray, ++index, num);
-			this.children.add(tempHST);
+			tempSumTree.incrSum(value);
+			tempSumTree.buildBySum(kArray, ++index, value);
+			children.add(tempSumTree);
+
 		}
 
 	}
 	
 	@Override
-	public void add(K[] list) {
-		// TODO Auto-generated method stub
-		
+	public void add(K[] kArray) {
+		int value = (Integer) getValue(kArray);
+		incrSum(value);
+		buildBySum(kArray, 0, value);
 	}
 
 	@Override
-	public java.lang.Number getResult(K[] kArray) {
+	public Number getResult(K[] kArray) {
 		
 		if(kArray==null || kArray.length<=0)
-			return this.getCount();
+			return 0;
 		
-		IHierarchicalStatisticTree<K> tempHST = new SumTree<K>(kArray[0]);
-		//Searching tempHST is in children or not
-		for(SumTree<K> HST: this.children){
-			//If exist
-			if(tempHST.equals(HST)){
-				//Start to searching accumulate value from this PivotTable
-				return HST.sum(kArray, 0);
+		IHierarchicalStatisticTree<K> tempSumTree = new SumTree<K>(kArray[0]);
+		
+		//Searching tempHST
+		for(SumTree<K> sumTree: children){
+			if(tempSumTree.equals(sumTree)){
+				//Start to searching accumulated value from this SumTree
+				return sumTree.getSum(kArray, 0);
 			}
 		}
-		//If not exist
-		return 0;
+
+		return 0;		//If not exist
 	}
 	
-	private void incrSum(int num){
-		this.count += num;
+	private void incrSum(int value){
+		count += value;
 	}
 
-	private Integer sum(K[] kArray, int index){
+	private Integer getSum(K[] kArray, int index){
 		//Stopped by out of bound or null value
 		if(index >= kArray.length || kArray[index]==null)
 			return 0;
 		
-		//Search by tempHST
-		SumTree<K> tempHST = new SumTree<K>(kArray[index]);
+		SumTree<K> tempSumTree = new SumTree<K>(kArray[index]);
 		
-		//If tempHST equals current PivotTable
-		if(tempHST.equals(this)){
-			//looking for next key value
-			index++;
+		if(tempSumTree.equals(this)){
+			index++;						//looking for next key value
+			
 			if(index >= kArray.length){
-				//Stopped by out of bound
-				return this.count;
+				return count;				//match all key value, return result
+			
 			}else if(kArray[index]==null){
-				//if next one is null value, then this key not exist
-				return 0;
+				return 0;					//if next key value is null, then this key doesn't exist
+			
 			}else{
 				//searching next key value in children
-				tempHST = new SumTree<K>(kArray[index]);
-				int indexOfChildren = this.children.indexOf(tempHST);
-				if(indexOfChildren >= 0){
-					//if exist
-					return this.children.get(indexOfChildren).sum(kArray, index);
-				}else{
-					//if not exist
-					return 0;
-				}
+				tempSumTree = new SumTree<K>(kArray[index]);
+				int indexOfChildren = children.indexOf(tempSumTree);
+				return (indexOfChildren >= 0) ? children.get(indexOfChildren).getSum(kArray, index) : 0;
 			}
 		}
 		return 0;
 	}
 	
+	/**
+	 * Starting point to print whole tree
+	 */
 	@Override
 	public void printTree() {
-		System.out.println(this.toString());
-		for(SumTree<K> hst: this.children){
-			hst.print(this.toString());
+		System.out.println(toString());
+		for(SumTree<K> hst: children){
+			hst.print(toString());
 		}
-		
 	}
 
+	/**
+	 * Printing whole tree recursively.
+	 * @param parent
+	 */
 	private void print(String parent){
-		System.out.println(parent + this.toString());
-		for(SumTree<K> hst: this.children){
-			hst.print(parent + this.toString());
+		System.out.println(parent + toString());
+		for(SumTree<K> hst: children){
+			hst.print(parent + toString());
 		}
 	}
 	
 	/**
-	 * get the value we want to accumulate
-	 * you may override this method by different number type.
+	 * Getting the value we want to accumulate.
+	 * To Override this method for custom requirement.
 	 * @param kArray
 	 * @return
 	 */
-	private java.lang.Number getNum(K[] kArray){
-		return (java.lang.Number) kArray[kArray.length-1];
+	private Number getValue(K[] kArray){
+		return (Number) kArray[kArray.length-1];
 	}
 }

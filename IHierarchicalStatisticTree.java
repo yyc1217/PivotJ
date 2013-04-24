@@ -18,11 +18,25 @@ public interface IHierarchicalStatisticTree<K> {
 //	public abstract void addByCount(K[] list);
 	
 	/**
-	 * general的方法
+	 * Print out whole tree.
 	 * 
 	 */
 	public abstract void printTree();
+
+	/**
+	 * Build a HierarchicalStatisticTree.
+	 */
 	public abstract void buildTree(List<K[]> list);
+	
+	/**
+	 * Add key elements to HierarchicalStatisticTree.
+	 */
 	public abstract void add(K[] list);
-	public abstract java.lang.Number getResult(K[] kArray);
+	
+	/**
+	 * Get the calculated result.
+	 * @param kArray
+	 * @return
+	 */
+	public abstract Number getResult(K[] kArray);
 }
