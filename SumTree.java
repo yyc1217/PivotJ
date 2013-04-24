@@ -60,16 +60,16 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	
 	@Override
 	public void add(K[] kArray) {
-		int value = (Integer) getValue(kArray);
+		Integer value = (Integer) getValue(kArray);
 		incrSum(value);
 		buildBySum(kArray, 0, value);
 	}
 
 	@Override
-	public Number getResult(K[] kArray) {
+	public Integer getResult(K[] kArray) {
 		
 		if(kArray==null || kArray.length<=0)
-			return 0;
+			return getCount();
 		
 		IHierarchicalStatisticTree<K> tempSumTree = new SumTree<K>(kArray[0]);
 		
@@ -142,7 +142,7 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	 * @param kArray
 	 * @return
 	 */
-	private Number getValue(K[] kArray){
-		return (Number) kArray[kArray.length-1];
+	private Integer getValue(K[] kArray){
+		return (Integer) kArray[kArray.length-1];
 	}
 }

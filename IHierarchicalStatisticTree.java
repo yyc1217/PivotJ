@@ -38,5 +38,5 @@ public interface IHierarchicalStatisticTree<K> {
 	 * @param kArray
 	 * @return
 	 */
-	public abstract Number getResult(K[] kArray);
+	public abstract Integer getResult(K[] kArray);
 }
