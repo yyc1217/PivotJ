@@ -18,6 +18,16 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 		this();
 		this.key = key;
 	}
+	
+	public SumTree(K[] kArray){
+		this();
+		add(kArray);
+	}
+	
+	public SumTree(List<K[]> list){
+		this();
+		buildTree(list);
+	}
 
 	@Override
 	public void buildTree(List<K[]> list) {
@@ -84,6 +94,10 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 		return 0;		//If not exist
 	}
 	
+	/**
+	 * Increasing count
+	 * @param value
+	 */
 	private void incrSum(int value){
 		count += value;
 	}
