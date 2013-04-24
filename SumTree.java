@@ -7,7 +7,7 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	/**
 	 * maintain all children belongs to this SumTree node
 	 */
-	ArrayList<SumTree<K>> children;
+	private ArrayList<SumTree<K>> children;
 	
 	public SumTree(){
 		super();
@@ -133,7 +133,9 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	 */
 	@Override
 	public void printTree() {
+		
 		System.out.println(toString());
+		
 		for(SumTree<K> hst: children){
 			hst.print(toString());
 		}
@@ -144,6 +146,7 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	 * @param parent
 	 */
 	private void print(String parent){
+		
 		System.out.println(parent + toString());
 		for(SumTree<K> hst: children){
 			hst.print(parent + toString());

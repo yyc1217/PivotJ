@@ -1,3 +1,5 @@
+import java.util.List;
+
 
 
 public abstract class AbstractHierarchicalStatisticTree<K> implements Comparable<K>, IHierarchicalStatisticTree<K> {	
@@ -33,41 +35,6 @@ public abstract class AbstractHierarchicalStatisticTree<K> implements Comparable
         }
         return this.key.equals(((AbstractHierarchicalStatisticTree<K>) obj).getKey());
  	}
-	
-//	private void buildByCount(List<K> list, int index) {
-//		//Stopped by out of bound or null value
-//		if(index >= (list.size()) || list.get(index)==null)
-//			return;
-//		
-//		//Search the key in children
-//		K tempKey = list.get(index);
-//		int indexOfChildren = this.children.indexOf(new AbstractHierarchicalStatisticTree<K>(tempKey));
-//		
-//		if(indexOfChildren >= 0){
-//			//If exist
-//			AbstractHierarchicalStatisticTree<K> hst = this.children.get(indexOfChildren);
-//			hst.incrCount();
-//			hst.buildByCount(list, ++index);
-//		}else{
-//			//If not exist
-//			AbstractHierarchicalStatisticTree<K> hst = new AbstractHierarchicalStatisticTree<K>(tempKey);
-//			hst.incrCount();
-//			hst.buildByCount(list, ++index);
-//			this.children.add(hst);
-//		}
-//	
-//	}
-//
-//	public void buildTreeByCount(List<List<K>> list) {
-//		this.incrCount();
-//		for(List<K> klist:list){
-//			this.buildByCount(klist, 0);
-//		}
-//	}
-//
-//	private void incrCount(){
-//		this.count+=1;
-//	}
 
 	public K getKey() {
 		return key;
