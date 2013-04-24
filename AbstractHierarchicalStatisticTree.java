@@ -1,6 +1,3 @@
-import java.util.List;
-
-
 
 public abstract class AbstractHierarchicalStatisticTree<K> implements Comparable<K>, IHierarchicalStatisticTree<K> {	
 	K key;
@@ -8,7 +5,6 @@ public abstract class AbstractHierarchicalStatisticTree<K> implements Comparable
 
 	
 	protected AbstractHierarchicalStatisticTree(){
-		this.key = null;
 		this.count = 0;
 	}
 	
@@ -21,12 +17,12 @@ public abstract class AbstractHierarchicalStatisticTree<K> implements Comparable
 	}
 	
 	@SuppressWarnings("unchecked")
-	public int compareTo(K o) {
+	public int compareTo(final K o) {
 		return ((Comparable<K>)this.key).compareTo((K)o);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (obj == this) {
             return true;
         }
