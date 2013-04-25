@@ -35,6 +35,7 @@ and in Java:
 
 you might use these result as key to build a Hierarchical Statistic Tree:
 
+    IHierarchicalStatisticTree HST = new SumTree();
     HST.buildTree(list);
 
 then you cound get the accumulated value by calling:
@@ -43,6 +44,8 @@ then you cound get the accumulated value by calling:
     //1
     HST.getResult(new Object[]{"CompanyA"});
     //5
+
+The difference between SumTree.java and CountTree.java is that former treats the last element in object array as calculating value, but latter just count every element.
 
 Examples
 -----------------------------
