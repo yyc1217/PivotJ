@@ -44,6 +44,6 @@ then you cound get the accumulated value by calling:
     HST.getResult(new Object[]{"CompanyA"});
     //5
 
-Example
+Examples
 -----------------------------
-* BySum : See Demo.java.
+* See SumTreeDemo.java, CountTreeDemo.java.
