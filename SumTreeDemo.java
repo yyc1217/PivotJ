@@ -2,14 +2,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Demo {
+public class SumTreeDemo {
 	public static void main(String[] args){
 		
-		/**
-		 * buildBySum example
+		/*
+		 * Testing data
 		 */
 		List<Object[]> testList = new ArrayList<Object[]>();
-		
 		testList.add(new Object[]{"CompanyA", "DepartmentA", "TeamA", 3});
 		testList.add(new Object[]{"CompanyA", "DepartmentA", "TeamB", 2});
 		testList.add(new Object[]{"CompanyA", "DepartmentB", "TeamB", 1});
@@ -18,10 +17,15 @@ public class Demo {
 		testList.add(new Object[]{"CompanyB", "DepartmentC", "TeamD", 17});
 		testList.add(new Object[]{"CompanyB", "DepartmentC", "TeamD", 5});
 
-		//Building HierarchicalStatistic Tree
+		/*
+		 * Building HierarchicalStatistic Tree
+		 */
 		IHierarchicalStatisticTree<Object> HST = new SumTree<Object>();
 		HST.buildTree(testList);
 		
+		/*
+		 * Print out whole tree
+		 */
 		HST.printTree();
 		//	 Output:
 		//		[TOTAL:48]
