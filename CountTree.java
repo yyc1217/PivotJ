@@ -45,8 +45,13 @@ public class CountTree<K> extends AbstractHierarchicalStatisticTree<K> implement
 	 * @param index
 	 */
 	private void buildByCount(K[] kArray, int index) {
-		if(index >= (kArray.length) || kArray[index]==null)
+		if(index >= (kArray.length))
 			return;
+		
+		if(kArray[index]==null)
+			throw new NullPointerException("key value can not be null!");
+		
+		
 		
 		//Search for the tempHST in children list
 		CountTree<K> tempCountTree = new CountTree<K>(kArray[index]);		

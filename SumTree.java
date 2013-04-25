@@ -47,8 +47,11 @@ public class SumTree<K> extends AbstractHierarchicalStatisticTree<K> implements 
 	 * @param num
 	 */
 	private void buildBySum(K[] kArray, int index, int value) {
-		if(index >= (kArray.length-1) || kArray[index]==null)
+		if(index >= (kArray.length-1))
 			return;
+		
+		if(kArray[index]==null)
+			throw new NullPointerException("key value can not be null!");
 		
 		//Search for the tempHST in children list
 		SumTree<K> tempSumTree = new SumTree<K>(kArray[index]);		
