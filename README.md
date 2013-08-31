@@ -1,4 +1,4 @@
-Hierarchical-Statistic-Tree (HST)
+PivotJ
 ================================
 This is a data structure which likes the pivot table in Excel. It could be used to hierarchically accumulate value in Java, Especially **'Group By'** operations.
 
